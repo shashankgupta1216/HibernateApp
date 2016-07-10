@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/util 
+   http://www.springframework.org/schema/util/spring-util.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context.xsd
+   http://www.springframework.org/schema/tx
+   http://www.springframework.org/schema/tx/spring-tx.xsd
+   http://www.springframework.org/schema/aop
+   http://www.springframework.org/schema/aop/spring-aop.xsd
+   http://www.springframework.org/schema/security
+   http://www.springframework.org/schema/security/spring-security.xsd">
+   
+   <!-- Demo 1 
+   Simple Bean     
+   <bean id="company" class="me.sumitkawatra.model.Company">
+   </bean> -->
+
+   <!-- Demo 2
+   Bean Setter Injection  
+   <bean id="company2" class="me.sumitkawatra.model.Company">
+   		<property name="id" value="11111"></property>
+   		<property name="name" value="HCL Technologies Ltd."></property>
+   		<property name="location" value="Noida, UP 201301 IN"></property>
+   </bean>
+    -->
+    
+    <!-- Demo 3
+    Constructor Injection
+    <bean id="company3" class="me.sumitkawatra.model.Company">
+    	<constructor-arg value="2"></constructor-arg>
+    	<constructor-arg value="Sumit Kawatra"></constructor-arg>
+    	<constructor-arg value="Rohtak"></constructor-arg>
+    </bean>
+    -->    
+    <!-- Demo4 
+     Abstract Method return JVM Singleton 
+     <bean id="mySingleton" class="me.sumitkawatra.model.MySingleton" factory-method="getInstance">
+     </bean> -->
+     
+     <!-- Demo5
+     Spring Bean Life Cycle
+     <bean id="springBean" class="me.sumitkawatra.model.SpringBean">
+     </bean>  
+     -->
+     <!-- Demo 6.1 
+      -->
+     <bean id="product" class="me.sumitkawatra.model.Product" scope="prototype">
+     	<constructor-arg value="Diet Pepsi"></constructor-arg>
+     </bean>
+     
+     <!-- Demo 6.2 
+      
+     <bean id="vendingMachine" class="me.sumitkawatra.model.VendingMachine" >
+      <constructor-arg  value="Pepci co in"></constructor-arg>
+      <constructor-arg ref="product"></constructor-arg>
+     </bean>
+     -->
+         
+     <!-- Demo 7 + 8 Lesson Learn  plus 9 
+     	Method Injection
+     
+     <bean id="prototypeBean" class="me.sumitkawatra.model.PrototypeBean" scope="prototype">     	
+     </bean>
+     
+     <bean id="singletonBean" class="me.sumitkawatra.model.SingletonBean" scope="singleton">
+     	<lookup-method name="createPrototypeBean" bean="prototypeBean"></lookup-method>    	
+     </bean>
+      -->
+     
+     <!--       Spring Hooks 
+     <bean class="spring.hooks.SpringBeanPostProcessor"></bean>
+     -->
+     <!-- Demo 10 Circular Dependency.
+      <bean id="a" class="me.sumitkawatra.model.A" >
+      	<property name="b" ref="b"></property>      	
+      </bean>
+      
+       <bean id="b" class="me.sumitkawatra.model.B" >
+       		<property name="a" ref="a"></property>
+      	</bean>
+      	 -->
+      	 
+      	 <context:annotation-config></context:annotation-config>
+      	 <context:component-scan base-package="me.sumitkawatra"></context:component-scan>
+      	 <context:property-placeholder location="classpath*:database-config.properties"/>
+      	 
+      	 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+      	 	<property name="driverClassName" value="${jdbc.driverClassName}" />
+			<property name="url" value="${jdbc.url}" />
+			<property name="username" value="${jdbc.username}" />
+			<property name="password" value="${jdbc.password}" />
+      	 </bean>
+      	 
+      	 <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+      	 	<property name="dataSource" ref="dataSource"></property>
+      	 	 
+      	 	<property name="hibernateProperties">		
+				<props>
+					<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+					<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>				
+					<prop key="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</prop>
+					<prop key="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</prop>
+					<prop key="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</prop>
+					<prop key="hibernate.c3p0.max_statements">${hibernate.c3p0.max_statements}</prop>	
+							
+				</props>
+			</property>
+			
+			<property name="packagesToScan">
+				<list>
+					<value>me.sumitkawatra.dataobject</value>
+				</list>
+			</property>
+			
+      	 </bean>
+      	 
+<!--       	 <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
+<!--       	 	<property name="sessionFactory" ref="sessionFactory"></property> -->
+<!--       	 </bean> -->
+     
+   </beans>
