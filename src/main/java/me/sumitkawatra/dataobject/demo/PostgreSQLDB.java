@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class PostgreSQLDB {
+private PostgreSQLDB {() {}
 	
 	public static void main(String[] args) {
 		DBConnect();
